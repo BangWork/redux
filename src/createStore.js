@@ -181,6 +181,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
       throw new Error('Reducers may not dispatch actions.')
     }
 
+    const prevState = currentState; 
     try {
       isDispatching = true
       currentState = currentReducer(currentState, action)
@@ -188,10 +189,12 @@ export default function createStore(reducer, preloadedState, enhancer) {
       isDispatching = false
     }
 
-    const listeners = (currentListeners = nextListeners)
-    for (let i = 0; i < listeners.length; i++) {
-      const listener = listeners[i]
-      listener()
+    if( prevState !== currentState ){
+      const listeners = (currentListeners = nextListeners)
+      for (let i = 0; i < listeners.length; i++) {
+        const listener = listeners[i]
+        listener()
+      }
     }
 
     return action
