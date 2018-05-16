@@ -12,6 +12,8 @@ import * as reducers from './helpers/reducers'
 import * as Rx from 'rxjs'
 import $$observable from 'symbol-observable'
 
+const addTestTodoAction = addTodo('TEST')
+
 describe('createStore', () => {
   it('exposes the public API', () => {
     const store = createStore(combineReducers(reducers))
@@ -198,11 +200,11 @@ describe('createStore', () => {
     const listenerB = jest.fn()
 
     let unsubscribeA = store.subscribe(listenerA)
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listenerA.mock.calls.length).toBe(1)
     expect(listenerB.mock.calls.length).toBe(0)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listenerA.mock.calls.length).toBe(2)
     expect(listenerB.mock.calls.length).toBe(0)
 
@@ -210,7 +212,7 @@ describe('createStore', () => {
     expect(listenerA.mock.calls.length).toBe(2)
     expect(listenerB.mock.calls.length).toBe(0)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listenerA.mock.calls.length).toBe(3)
     expect(listenerB.mock.calls.length).toBe(1)
 
@@ -218,7 +220,7 @@ describe('createStore', () => {
     expect(listenerA.mock.calls.length).toBe(3)
     expect(listenerB.mock.calls.length).toBe(1)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listenerA.mock.calls.length).toBe(3)
     expect(listenerB.mock.calls.length).toBe(2)
 
@@ -226,7 +228,7 @@ describe('createStore', () => {
     expect(listenerA.mock.calls.length).toBe(3)
     expect(listenerB.mock.calls.length).toBe(2)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listenerA.mock.calls.length).toBe(3)
     expect(listenerB.mock.calls.length).toBe(2)
 
@@ -234,7 +236,7 @@ describe('createStore', () => {
     expect(listenerA.mock.calls.length).toBe(3)
     expect(listenerB.mock.calls.length).toBe(2)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listenerA.mock.calls.length).toBe(4)
     expect(listenerB.mock.calls.length).toBe(2)
   })
@@ -250,7 +252,7 @@ describe('createStore', () => {
     unsubscribeA()
     unsubscribeA()
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listenerA.mock.calls.length).toBe(0)
     expect(listenerB.mock.calls.length).toBe(1)
   })
@@ -265,7 +267,7 @@ describe('createStore', () => {
     unsubscribeSecond()
     unsubscribeSecond()
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listener.mock.calls.length).toBe(1)
   })
 
@@ -282,8 +284,8 @@ describe('createStore', () => {
     })
     store.subscribe(listenerC)
 
-    store.dispatch(unknownAction())
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
+    store.dispatch(addTestTodoAction)
 
     expect(listenerA.mock.calls.length).toBe(2)
     expect(listenerB.mock.calls.length).toBe(1)
@@ -310,12 +312,12 @@ describe('createStore', () => {
     )
     unsubscribeHandles.push(store.subscribe(() => listener3()))
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listener1.mock.calls.length).toBe(1)
     expect(listener2.mock.calls.length).toBe(1)
     expect(listener3.mock.calls.length).toBe(1)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listener1.mock.calls.length).toBe(1)
     expect(listener2.mock.calls.length).toBe(1)
     expect(listener3.mock.calls.length).toBe(1)
@@ -342,18 +344,18 @@ describe('createStore', () => {
       maybeAddThirdListener()
     })
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listener1.mock.calls.length).toBe(1)
     expect(listener2.mock.calls.length).toBe(1)
     expect(listener3.mock.calls.length).toBe(0)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listener1.mock.calls.length).toBe(2)
     expect(listener2.mock.calls.length).toBe(2)
     expect(listener3.mock.calls.length).toBe(1)
   })
 
-  it('uses the last snapshot of subscribers during nested dispatch', () => {
+  it('addTestTodoAction', () => {
     const store = createStore(reducers.todos)
 
     const listener1 = jest.fn()
@@ -371,7 +373,7 @@ describe('createStore', () => {
 
       unsubscribe1()
       unsubscribe4 = store.subscribe(listener4)
-      store.dispatch(unknownAction())
+      store.dispatch(addTestTodoAction)
 
       expect(listener1.mock.calls.length).toBe(1)
       expect(listener2.mock.calls.length).toBe(1)
@@ -381,14 +383,14 @@ describe('createStore', () => {
     store.subscribe(listener2)
     store.subscribe(listener3)
 
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listener1.mock.calls.length).toBe(1)
     expect(listener2.mock.calls.length).toBe(2)
     expect(listener3.mock.calls.length).toBe(2)
     expect(listener4.mock.calls.length).toBe(1)
 
     unsubscribe4()
-    store.dispatch(unknownAction())
+    store.dispatch(addTestTodoAction)
     expect(listener1.mock.calls.length).toBe(1)
     expect(listener2.mock.calls.length).toBe(3)
     expect(listener3.mock.calls.length).toBe(3)
